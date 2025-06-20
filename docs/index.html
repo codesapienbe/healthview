@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthView - AI-Powered Contactless Vital Signs Monitoring</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <h2>HealthView</h2>
+                <span class="tagline">AI-Powered Health Monitoring</span>
+            </div>
+            <div class="nav-links">
+                <a href="#demo">Try Demo</a>
+                <a href="#features">Features</a>
+                <a href="#contact" class="btn btn--primary btn--sm">Schedule Demo</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>The Future of Health Monitoring is Here</h1>
+                    <p class="hero-subtitle">AI-powered contactless vital signs monitoring using any camera</p>
+                    <p class="hero-description">Measure heart rate, blood pressure, respiratory rate, and stress levels in 30 seconds</p>
+                    <div class="hero-actions">
+                        <button class="btn btn--primary btn--lg" onclick="scrollToDemo()">Try Demo</button>
+                        <button class="btn btn--outline btn--lg" onclick="openScheduleModal()">Schedule Demo</button>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="demo-preview">
+                        <div class="camera-feed">
+                            <div class="camera-placeholder">
+                                <div class="pulse-animation"></div>
+                                <p>Camera Feed Simulation</p>
+                            </div>
+                            <div class="vital-overlay">
+                                <div class="vital-item">
+                                    <span class="vital-label">Heart Rate</span>
+                                    <span class="vital-value" id="hero-hr">72 BPM</span>
+                                </div>
+                                <div class="vital-item">
+                                    <span class="vital-label">Respiratory Rate</span>
+                                    <span class="vital-value" id="hero-rr">16 /min</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology Showcase -->
+    <section class="tech-showcase" id="tech">
+        <div class="container">
+            <h2>How It Works</h2>
+            <div class="process-steps">
+                <div class="step">
+                    <div class="step-icon">📹</div>
+                    <h3>1. Capture</h3>
+                    <p>Use any standard camera to record facial video</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">🧠</div>
+                    <h3>2. Analyze</h3>
+                    <p>AI algorithms extract vital signs from subtle color changes</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">📊</div>
+                    <h3>3. Results</h3>
+                    <p>Get accurate vital signs measurements in real-time</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Grid -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2>Comprehensive Vital Signs Monitoring</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">❤️</div>
+                    <h3>Heart Rate Monitoring</h3>
+                    <div class="accuracy">±2 BPM accuracy</div>
+                    <p>Contactless heart rate measurement with medical-grade accuracy</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🫁</div>
+                    <h3>Respiratory Rate</h3>
+                    <div class="accuracy">±1 breath/min</div>
+                    <p>Breathing rate detection from subtle facial movements</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🩸</div>
+                    <h3>Blood Pressure</h3>
+                    <div class="accuracy">±5 mmHg</div>
+                    <p>Non-invasive blood pressure estimation with calibration</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🧘</div>
+                    <h3>Stress Index</h3>
+                    <div class="accuracy">0-100 scale</div>
+                    <p>Real-time stress level assessment based on HRV</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📶</div>
+                    <h3>Signal Quality</h3>
+                    <div class="accuracy">0-1.0 score</div>
+                    <p>Measurement reliability and confidence indicator</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Demo -->
+    <section class="demo-section" id="demo">
+        <div class="container">
+            <h2>Try Our Technology</h2>
+            <div class="demo-container">
+                <div class="demo-controls">
+                    <h3>Live Vital Signs Demo</h3>
+                    <button class="btn btn--primary" id="start-demo">Start Monitoring</button>
+                    <button class="btn btn--secondary" id="stop-demo" style="display: none;">Stop Monitoring</button>
+                    <div class="demo-status">
+                        <div class="status-indicator" id="status-indicator"></div>
+                        <span id="status-text">Ready to start</span>
+                    </div>
+                </div>
+                <div class="charts-container">
+                    <div class="chart-wrapper">
+                        <h4>Heart Rate (BPM)</h4>
+                        <canvas id="heartRateChart"></canvas>
+                    </div>
+                    <div class="chart-wrapper">
+                        <h4>Respiratory Rate (/min)</h4>
+                        <canvas id="respiratoryChart"></canvas>
+                    </div>
+                </div>
+                <div class="current-vitals">
+                    <div class="vital-display">
+                        <div class="vital-number" id="current-hr">--</div>
+                        <div class="vital-unit">BPM</div>
+                        <div class="vital-name">Heart Rate</div>
+                    </div>
+                    <div class="vital-display">
+                        <div class="vital-number" id="current-rr">--</div>
+                        <div class="vital-unit">/min</div>
+                        <div class="vital-name">Respiratory</div>
+                    </div>
+                    <div class="vital-display">
+                        <div class="vital-number" id="current-bp">--/--</div>
+                        <div class="vital-unit">mmHg</div>
+                        <div class="vital-name">Blood Pressure</div>
+                    </div>
+                    <div class="vital-display">
+                        <div class="vital-number" id="current-stress">--</div>
+                        <div class="vital-unit">%</div>
+                        <div class="vital-name">Stress Index</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits -->
+    <section class="benefits">
+        <div class="container">
+            <h2>Why Choose HealthView?</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <h3>Contactless & Hygienic</h3>
+                    <p>No physical contact required, reducing infection risk</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>Medical-Grade Accuracy</h3>
+                    <p>FDA-cleared precision comparable to traditional monitors</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>Real-Time Results</h3>
+                    <p>Instant vital signs measurement in 30-60 seconds</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>Easy Integration</h3>
+                    <p>RESTful API and SDKs for seamless platform integration</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>Privacy-First</h3>
+                    <p>Edge computing ensures data stays on device</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>Cost-Effective</h3>
+                    <p>Reduce hardware costs with existing camera infrastructure</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Use Cases -->
+    <section class="use-cases">
+        <div class="container">
+            <h2>Transform Healthcare Across Industries</h2>
+            <div class="use-cases-grid">
+                <div class="use-case-card">
+                    <h3>Telemedicine</h3>
+                    <p>Remote patient consultations with vital signs monitoring</p>
+                    <div class="market-size">$50B+ telemedicine market</div>
+                </div>
+                <div class="use-case-card">
+                    <h3>Hospital & Clinical</h3>
+                    <p>Continuous patient monitoring without contact sensors</p>
+                    <div class="market-size">$25B+ patient monitoring market</div>
+                </div>
+                <div class="use-case-card">
+                    <h3>Elderly Care</h3>
+                    <p>Non-intrusive health monitoring for aging population</p>
+                    <div class="market-size">$30B+ elderly care market</div>
+                </div>
+                <div class="use-case-card">
+                    <h3>Fitness & Wellness</h3>
+                    <p>Integration with health apps and fitness platforms</p>
+                    <div class="market-size">$15B+ fitness tech market</div>
+                </div>
+                <div class="use-case-card">
+                    <h3>Insurance</h3>
+                    <p>Risk assessment and health screening for policies</p>
+                    <div class="market-size">$5B+ insurtech market</div>
+                </div>
+                <div class="use-case-card">
+                    <h3>Workplace Health</h3>
+                    <p>Employee wellness and health screening programs</p>
+                    <div class="market-size">$8B+ workplace wellness market</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Market & Investment -->
+    <section class="investment" id="investment">
+        <div class="container">
+            <h2>Market Opportunity</h2>
+            <div class="investment-stats">
+                <div class="stat-card">
+                    <div class="stat-number">$15.8B</div>
+                    <div class="stat-label">Global vital signs monitoring market by 2028</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">7.5%</div>
+                    <div class="stat-label">CAGR expected through 2028</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">133M+</div>
+                    <div class="stat-label">Potential users in target demographics</div>
+                </div>
+            </div>
+            <div class="market-drivers">
+                <h3>Key Market Drivers</h3>
+                <ul>
+                    <li>Aging population and chronic disease prevalence</li>
+                    <li>Telemedicine adoption acceleration</li>
+                    <li>Need for contactless health monitoring</li>
+                    <li>Healthcare cost reduction pressure</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technical Specifications -->
+    <section class="tech-specs">
+        <div class="container">
+            <h2>Technical Specifications</h2>
+            <div class="specs-grid">
+                <div class="spec-item">
+                    <h4>Camera Requirements</h4>
+                    <p>Standard RGB camera, 720p minimum</p>
+                </div>
+                <div class="spec-item">
+                    <h4>Frame Rate</h4>
+                    <p>30+ FPS recommended</p>
+                </div>
+                <div class="spec-item">
+                    <h4>Distance</h4>
+                    <p>30-80 cm from camera</p>
+                </div>
+                <div class="spec-item">
+                    <h4>Duration</h4>
+                    <p>30-60 seconds optimal</p>
+                </div>
+                <div class="spec-item">
+                    <h4>Lighting</h4>
+                    <p>Normal indoor/outdoor lighting</p>
+                </div>
+                <div class="spec-item">
+                    <h4>Supported Formats</h4>
+                    <p>MP4, AVI, MOV, WebM, MKV</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact & CTA -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2>Ready to Transform Healthcare?</h2>
+            <p>Join leading healthcare organizations already using HealthView technology</p>
+            <div class="contact-actions">
+                <button class="btn btn--primary btn--lg" onclick="openScheduleModal()">Schedule Investor Meeting</button>
+                <button class="btn btn--outline btn--lg" onclick="openContactModal()">Request Technical Demo</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modals -->
+    <div class="modal" id="schedule-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Schedule Your Demo</h3>
+                <button class="modal-close" onclick="closeModal('schedule-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form class="contact-form">
+                    <div class="form-group">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Company</label>
+                        <input type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Interest</label>
+                        <select class="form-control">
+                            <option>Investor Meeting</option>
+                            <option>Technical Demo</option>
+                            <option>Partnership</option>
+                            <option>API Integration</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn--primary btn--full-width">Schedule Meeting</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="contact-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Request Technical Demo</h3>
+                <button class="modal-close" onclick="closeModal('contact-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form class="contact-form">
+                    <div class="form-group">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Organization</label>
+                        <input type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Use Case</label>
+                        <select class="form-control">
+                            <option>Telemedicine</option>
+                            <option>Hospital/Clinical</option>
+                            <option>Elderly Care</option>
+                            <option>Fitness/Wellness</option>
+                            <option>Insurance</option>
+                            <option>Workplace Health</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn--primary btn--full-width">Request Demo</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
